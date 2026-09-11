@@ -131,6 +131,12 @@ export const generateContent = createServerFn({ method: "POST" })
       };
     }
 
+    // No AI credentials configured yet — serve the offline fallback so the tool still works.
+    if (!apiKey) {
+      return { ok: true, items: mockOutput(data), remaining: daily.remaining };
+    }
+
+
     try {
       const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
         method: "POST",
