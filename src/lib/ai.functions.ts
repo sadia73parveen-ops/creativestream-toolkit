@@ -71,13 +71,38 @@ function parseOutput(tool: GenerationInput["tool"], text: string) {
     .slice(0, 12);
 }
 
+/** Deterministic offline fallback so every tool stays usable without an AI key. */
+function mockOutput(data: GenerationInput): string[] {
+  const topic = sanitize(data.topic);
+  if (data.tool === "youtube-title") {
+    return [
+      `${topic}: The Complete Beginner's Guide`,
+      `I Tried ${topic} For 30 Days — Here's What Happened`,
+      `${topic} Explained In 8 Minutes`,
+      `5 ${topic} Mistakes Almost Everyone Makes`,
+      `Why ${topic} Is Changing Everything In 2026`,
+      `The Honest Truth About ${topic}`,
+    ];
+  }
+  if (data.tool === "caption") {
+    return [
+      `${topic} — but make it effortless. Save this for later 💡`,
+      `Nobody talks about this side of ${topic}. Thoughts?`,
+      `Three things I wish I knew about ${topic} before starting.`,
+      `${topic} in one post. Follow for more creator shortcuts.`,
+      `Tried ${topic} this week and the results surprised me ✨`,
+    ];
+  }
+  const base = topic.toLowerCase().replace(/[^a-z0-9 ]/g, "").split(" ").filter(Boolean);
+  const seeds = [...base, "creator", "contentcreator", "tips", "viral", "reels", "growth", "howto"];
+  return Array.from(new Set(seeds.map((s) => `#${s.replace(/\s/g, "")}`))).slice(0, 24);
+}
+
 export const generateContent = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => GenerationSchema.parse(input))
   .handler(async ({ data }): Promise<GenerationResult> => {
     const apiKey = process.env["LOVABLE_API_KEY"];
-    if (!apiKey) {
-      return { ok: false, items: [], error: "AI is not configured yet. Please try again later." };
-    }
+
 
     // Anonymous visitors are limited by IP. Once accounts land, key this by user id + plan.
     const request = getRequest();
