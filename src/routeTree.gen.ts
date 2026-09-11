@@ -10,33 +10,90 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AiYoutubeTitleGeneratorRouteImport } from './routes/ai-youtube-title-generator'
+import { Route as HashtagGeneratorRouteImport } from './routes/hashtag-generator'
+import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as SocialMediaCaptionGeneratorRouteImport } from './routes/social-media-caption-generator'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AiYoutubeTitleGeneratorRoute = AiYoutubeTitleGeneratorRouteImport.update({
+  id: '/ai-youtube-title-generator',
+  path: '/ai-youtube-title-generator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HashtagGeneratorRoute = HashtagGeneratorRouteImport.update({
+  id: '/hashtag-generator',
+  path: '/hashtag-generator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SocialMediaCaptionGeneratorRoute =
+  SocialMediaCaptionGeneratorRouteImport.update({
+    id: '/social-media-caption-generator',
+    path: '/social-media-caption-generator',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ai-youtube-title-generator': typeof AiYoutubeTitleGeneratorRoute
+  '/hashtag-generator': typeof HashtagGeneratorRoute
+  '/pricing': typeof PricingRoute
+  '/social-media-caption-generator': typeof SocialMediaCaptionGeneratorRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ai-youtube-title-generator': typeof AiYoutubeTitleGeneratorRoute
+  '/hashtag-generator': typeof HashtagGeneratorRoute
+  '/pricing': typeof PricingRoute
+  '/social-media-caption-generator': typeof SocialMediaCaptionGeneratorRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ai-youtube-title-generator': typeof AiYoutubeTitleGeneratorRoute
+  '/hashtag-generator': typeof HashtagGeneratorRoute
+  '/pricing': typeof PricingRoute
+  '/social-media-caption-generator': typeof SocialMediaCaptionGeneratorRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/ai-youtube-title-generator'
+    | '/hashtag-generator'
+    | '/pricing'
+    | '/social-media-caption-generator'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/ai-youtube-title-generator'
+    | '/hashtag-generator'
+    | '/pricing'
+    | '/social-media-caption-generator'
+  id:
+    | '__root__'
+    | '/'
+    | '/ai-youtube-title-generator'
+    | '/hashtag-generator'
+    | '/pricing'
+    | '/social-media-caption-generator'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AiYoutubeTitleGeneratorRoute: typeof AiYoutubeTitleGeneratorRoute
+  HashtagGeneratorRoute: typeof HashtagGeneratorRoute
+  PricingRoute: typeof PricingRoute
+  SocialMediaCaptionGeneratorRoute: typeof SocialMediaCaptionGeneratorRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +105,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ai-youtube-title-generator': {
+      id: '/ai-youtube-title-generator'
+      path: '/ai-youtube-title-generator'
+      fullPath: '/ai-youtube-title-generator'
+      preLoaderRoute: typeof AiYoutubeTitleGeneratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hashtag-generator': {
+      id: '/hashtag-generator'
+      path: '/hashtag-generator'
+      fullPath: '/hashtag-generator'
+      preLoaderRoute: typeof HashtagGeneratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/social-media-caption-generator': {
+      id: '/social-media-caption-generator'
+      path: '/social-media-caption-generator'
+      fullPath: '/social-media-caption-generator'
+      preLoaderRoute: typeof SocialMediaCaptionGeneratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AiYoutubeTitleGeneratorRoute: AiYoutubeTitleGeneratorRoute,
+  HashtagGeneratorRoute: HashtagGeneratorRoute,
+  PricingRoute: PricingRoute,
+  SocialMediaCaptionGeneratorRoute: SocialMediaCaptionGeneratorRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
